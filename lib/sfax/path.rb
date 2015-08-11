@@ -28,7 +28,7 @@ module SFax
       '/api/' + parts.join('&')
     end
 
-    def receive(count)
+    def receive_fax(count)
       parts = [
         "receiveinboundfax?",
         "token=#{CGI.escape(@token)}",

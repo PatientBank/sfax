@@ -23,7 +23,7 @@ module SFax
     end
 
     # Accepts the file to send and sends it to fax_number.
-    def send_fax(fax_number, file, name = nil)
+    def send_fax(fax_number, file, name = "")
       return if file.nil? || fax_number.nil?
 
       connection = SFax::Connection.outgoing
@@ -58,11 +58,11 @@ module SFax
     end
 
     # If there are any received faxes, returns an array of fax_ids for those faxes.
-    def receive(count)
+    def receive_fax(count)
       fax_count = (count > 500) ? 500 : count
       connection = SFax::Connection.incoming
 
-      path = @path.receive(fax_count.to_s)
+      path = @path.receive_fax(fax_count.to_s)
       response = connection.get path do |req|
         req.body = {}
       end
