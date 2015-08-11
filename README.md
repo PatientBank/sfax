@@ -35,24 +35,26 @@ SFax::Faxer.new(username, api_key, vector, encryption_key)
 
 After this there are four main methods: `send_fax`, `fax_status`, `receive_fax` and `download_fax`.
 
-`send_fax` accepts a `fax_number` in the following format: `+1xxxxxxxxxx` and a `file`. File can be a `Tempfile` or a url. If fax is successfully initiated, `send_fax` returns `fax_id` (a 32-digit alpha-numeric id) which can be used to track the status. 
+`send_fax` accepts a `file` and a `fax_number` in the following format: `+1xxxxxxxxxx`. File can be a `Tempfile` or a url. If fax is successfully initiated, `send_fax` returns `fax_id` (a 32-digit alphanumeric id) which can be used to track the fax status. 
 
 `fax_status` accepts a `fax_id` which is returned from `send_fax` and returns the status of the fax with `fax_id`.
 
-`receive_status` accepts `count`, which is the number of faxes to be received. SFax returns 500 (maximum) faxes at a time, so count is capped at 500. If there are any received faxes `receive_fax` returns an array of fax ids to be downloaded. If there are more faxes to be received, `receive_fax` reuturns `true`. Otherwise it returns `false`.
+`receive_fax` accepts `count`, which is the number of faxes to be received. SFax returns 500 (maximum) faxes at a time, so count is capped at 500. `receive_fax` returns two values: If there are any received faxes, it returns an array of fax ids to be downloaded. If there are more faxes to be received, `receive_fax` also returns `true`. Otherwise it returns `false` along with the array of ids.
 
-`download_fax` accepts a fax_id and returns the contents of the fax to be written to a file.
+`download_fax` accepts a `fax_id` and returns the contents of the fax to be written to a file.
 
 ## Best Practices
 
-At PatientBank, we make calls to the SFax API through jobs. While sending faxes are triggered via the user, we use `cron` jobs to check for received faxes every X minutes.
+At PatientBank, we use this gem to make calls to the SFax API via jobs. While sending faxes are triggered via the user, we use `cron` jobs to regularly check if there are any received faxes.
 
 For development environment, it is important to not send or receive faxes from your main fax number. One workaround is to create a new fax number (and its respective API credentials) for use in development machines.
 
 ## Resources
 
 [The Basics](http://sfax.scrypt.com/article/617-the-basics-how-it-works)
+
 [Generating API Credentials](http://sfax.scrypt.com/article/383-generating-your-api-credentials)
+
 [SFax Sign up](https://www.scrypt.com/sfax/sign-up/integration/)
 
 ## Credits
