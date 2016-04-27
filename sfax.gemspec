@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Feridun Mert Celebi']
   spec.email         = ['mert@patientbank.com']
   spec.summary       = %q{Wrapper around SFax API}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = 'www.patientbank.us'
+  spec.description   = %q{Ruby wrapper for sFax API.}
+  spec.homepage      = 'https://www.patientbank.us'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
