@@ -48,7 +48,7 @@ module SFax
       '/api/' + parts.join('&')
     end
 
-    def download_fax_as_tiff(fax_id)
+    def download_fax_as_tif(fax_id)
       parts = [
         "downloadinboundfaxastif?",
         "token=#{CGI.escape(@token)}",
