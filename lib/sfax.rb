@@ -32,7 +32,7 @@ module SFax
       path = @path.send_fax(fax, name)
       response = connection.post path do |req|
         req.body = {}
-        req.body['file'] = Faraday::UploadIO.new(open(file), 
+        req.body['file'] = Faraday::UploadIO.new(open(file),
           'application/pdf', "#{Time.now.utc.iso8601}.pdf")
       end
 
@@ -73,11 +73,20 @@ module SFax
     end
 
     # If a valid fax_id is received fetches the contents of the fax and returns
-    def download_fax(fax_id)
+    def download_fax_as_pdf(fax_id)
       return if fax_id.nil?
 
       connection = SFax::Connection.incoming
       path = @path.download_fax(fax_id)
+      response = connection.get path
+      response.body
+    end
+
+    def download_fax_as_tif(fax_id)
+      return if fax_id.nil?
+
+      connection = SFax::Connection.incoming
+      path = @path.download_fax_as_tif(fax_id)
       response = connection.get path
       response.body
     end

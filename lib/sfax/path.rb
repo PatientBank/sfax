@@ -1,6 +1,6 @@
 module SFax
   class Path
-    
+
     def initialize(token, api_key)
       @token = token
       @api_key = api_key
@@ -38,9 +38,19 @@ module SFax
       '/api/' + parts.join('&')
     end
 
-    def download_fax(fax_id)
+    def download_fax_as_pdf(fax_id)
       parts = [
         "downloadinboundfaxaspdf?",
+        "token=#{CGI.escape(@token)}",
+        "ApiKey=#{CGI.escape(@api_key)}",
+        "FaxId=#{fax_id}"
+      ]
+      '/api/' + parts.join('&')
+    end
+
+    def download_fax_as_tiff(fax_id)
+      parts = [
+        "downloadinboundfaxastif?",
         "token=#{CGI.escape(@token)}",
         "ApiKey=#{CGI.escape(@api_key)}",
         "FaxId=#{fax_id}"
