@@ -77,7 +77,7 @@ module SFax
       return if fax_id.nil?
 
       connection = SFax::Connection.incoming
-      path = @path.download_fax(fax_id)
+      path = @path.download_fax_as_pdf(fax_id)
       response = connection.get path
       response.body
     end
