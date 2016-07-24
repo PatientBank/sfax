@@ -12,8 +12,7 @@ module SFax
         "token=#{CGI.escape(@token)}",
         "ApiKey=#{CGI.escape(@api_key)}",
         "RecipientName=#{name}",
-        "RecipientFax=#{fax}",
-        "OptionalParams=&"
+        "RecipientFax=#{fax}"
       ]
       '/api/' + parts.join('&')
     end
