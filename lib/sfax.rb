@@ -37,7 +37,7 @@ module SFax
       end
 
       parsed = JSON.parse(response.body)
-      fax_id = (parsed['SendFaxQueueId'] != -1) ? parsed['SendFaxQueueId'] : nil
+      fax_id = parsed
     end
 
     # Checks the status (Success, Failure etc.) of the fax with fax_id.
