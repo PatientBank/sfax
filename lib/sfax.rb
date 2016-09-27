@@ -30,6 +30,7 @@ module SFax
       fax = fax_number[-11..-1] || fax_number
 
       path = @path.send_fax(fax, name)
+
       response = connection.post path do |req|
         req.body = {}
         req.body['file'] = Faraday::UploadIO.new(open(file),
@@ -37,7 +38,7 @@ module SFax
       end
 
       parsed = JSON.parse(response.body)
-      fax_id = parsed
+      fax_id = [parsed,path]
     end
 
     # Checks the status (Success, Failure etc.) of the fax with fax_id.
