@@ -68,6 +68,7 @@ module SFax
         req.body = {}
       end
 
+      puts response
       parsed = JSON.parse(response.body)
       has_more_items = parsed['Has_More_Items'] == 'true' ? true : false
       return has_more_items, parsed['InboundFaxItems']
