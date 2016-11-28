@@ -3,14 +3,14 @@ require 'base64'
 
 module SFax
   class Encryptor
-    
+
     def initialize(key, options = {})
       @key = key.clone
       @iv = options[:iv]
     end
 
     def encrypt(plain = nil, &block)
-      Base64.encode64(cipher(plain, false, &block))
+      Base64.strict_encode64(cipher(plain, false, &block))
     end
 
     def decrypt(cipher_text = nil, &block)
@@ -24,7 +24,7 @@ module SFax
     private
 
     def decode_if_needed(data)
-      @decrypt ? Base64.decode64(data) : data
+      @decrypt ? Base64.strict_decode64(data) : data
     end
 
     def cipher(data = nil, decrypt = false, &block)

@@ -30,14 +30,15 @@ module SFax
       fax = fax_number[-11..-1] || fax_number
 
       path = @path.send_fax(fax, name)
+
       response = connection.post path do |req|
         req.body = {}
-        req.body['file'] = Faraday::UploadIO.new(open(file), 
+        req.body['file'] = Faraday::UploadIO.new(open(file),
           'application/pdf', "#{Time.now.utc.iso8601}.pdf")
       end
 
       parsed = JSON.parse(response.body)
-      fax_id = (parsed['SendFaxQueueId'] != -1) ? parsed['SendFaxQueueId'] : nil
+      fax_id = [parsed,path]
     end
 
     # Checks the status (Success, Failure etc.) of the fax with fax_id.
@@ -67,17 +68,27 @@ module SFax
         req.body = {}
       end
 
+      puts response
       parsed = JSON.parse(response.body)
       has_more_items = parsed['Has_More_Items'] == 'true' ? true : false
       return has_more_items, parsed['InboundFaxItems']
     end
 
     # If a valid fax_id is received fetches the contents of the fax and returns
-    def download_fax(fax_id)
+    def download_fax_as_pdf(fax_id)
       return if fax_id.nil?
 
       connection = SFax::Connection.incoming
-      path = @path.download_fax(fax_id)
+      path = @path.download_fax_as_pdf(fax_id)
+      response = connection.get path
+      response.body
+    end
+
+    def download_fax_as_tif(fax_id)
+      return if fax_id.nil?
+
+      connection = SFax::Connection.incoming
+      path = @path.download_fax_as_tif(fax_id)
       response = connection.get path
       response.body
     end
